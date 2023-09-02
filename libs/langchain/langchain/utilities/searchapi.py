@@ -66,7 +66,7 @@ class SearchApiAPIWrapper(BaseModel):
             params=request_details["params"],
             headers=request_details["headers"],
         )
-        # TODO: check if response is 200
+        response.raise_for_status()
         return response.json()
 
     async def _async_search_api_results(self, query: str) -> dict:
@@ -78,6 +78,7 @@ class SearchApiAPIWrapper(BaseModel):
                     url=request_details["url"],
                     headers=request_details["headers"],
                     params=request_details["params"],
+                    raise_for_status=True,
                 ) as response:
                     results = await response.json()
         else:
@@ -85,6 +86,7 @@ class SearchApiAPIWrapper(BaseModel):
                 url=request_details["url"],
                 headers=request_details["headers"],
                 params=request_details["params"],
+                raise_for_status=True,
             ) as response:
                 results = await response.json()
         # TODO: check if response is 200
