@@ -10,6 +10,7 @@ from langchain.utils import get_from_dict_or_env
 class SearchApiAPIWrapper(BaseModel):
     """
     Wrapper around SearchApi API.
+    TODO: Write docs with usage examples.
     """
 
     # Use "google" engine by default. Full list of supported ones can be found in https://www.searchapi.io/docs/google
@@ -89,14 +90,16 @@ class SearchApiAPIWrapper(BaseModel):
                 raise_for_status=True,
             ) as response:
                 results = await response.json()
-        # TODO: check if response is 200
         return results
 
     @staticmethod
     def _result_as_string(result: dict) -> str:
         toret = "No good search result found"
-        # TODO: use answer_box answer + snippet when available
-        if "knowledge_graph" in result.keys():
+        if "answer_box" in result.keys() and "answer" in result["answer_box"].keys():
+            toret = result["answer_box"]["answer"]
+        elif "answer_box" in result.keys() and "snippet" in result["answer_box"].keys():
+            toret = result["answer_box"]["snippet"]
+        elif "knowledge_graph" in result.keys():
             toret = result["knowledge_graph"]["description"]
         elif "organic_results" in result.keys():
             snippets = [

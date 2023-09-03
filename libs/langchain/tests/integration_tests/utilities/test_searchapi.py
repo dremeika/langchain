@@ -15,6 +15,8 @@ def test_results() -> None:
     """Test that call gives correct answer."""
     search = SearchApiAPIWrapper()
     output = search.results("What is the capital of Lithuania?")
+    assert "Vilnius" in output["answer_box"]["answer"]
+    assert "Vilnius" in output["answer_box"]["snippet"]
     assert "Vilnius" in output["knowledge_graph"]["description"]
     assert "Vilnius" in output["organic_results"][0]["snippet"]
 
@@ -44,6 +46,6 @@ async def test_async_call() -> None:
 @pytest.mark.asyncio
 async def test_async_results() -> None:
     """Test that call gives the correct answer."""
-    search = SearchApiAPIWrapper(searchapi_api_key="demo")
+    search = SearchApiAPIWrapper()
     output = await search.aresults("What is Obama's full name?")
     assert "Barack Hussein Obama II" in output["knowledge_graph"]["description"]
