@@ -10,10 +10,20 @@ from langchain.utils import get_from_dict_or_env
 class SearchApiAPIWrapper(BaseModel):
     """
     Wrapper around SearchApi API.
-    TODO: Write docs with usage examples.
+
+    To use, you should have the environment variable ``SEARCHAPI_API_KEY``
+    set with your API key, or pass `searchapi_api_key`
+    as a named parameter to the constructor.
+
+    Example:
+        .. code-block:: python
+
+            from langchain.utilities import SearchApiAPIWrapper
+            serpapi = SearchApiAPIWrapper()
     """
 
-    # Use "google" engine by default. Full list of supported ones can be found in https://www.searchapi.io/docs/google
+    # Use "google" engine by default.
+    # Full list of supported ones can be found in https://www.searchapi.io docs
     engine: str = "google"
     searchapi_api_key: Optional[str] = None
     aiosession: Optional[aiohttp.ClientSession] = None
